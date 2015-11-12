@@ -1,0 +1,23 @@
+{
+  "name": "with-mongoose",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "co": "^4.6.0",
+    "co-bcrypt": "^1.0.0",
+    "co-body": "^4.0.0",
+    "koa": "^1.1.2",
+    "koa-mount": "^1.3.0",
+    "koa-oauth2orize": "^0.1.3",
+    "koa-passport": "^1.2.0",
+    "koa-router": "^5.2.3",
+    "mongoose": "^4.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jordan Pappas <jordanpappas@yahoo.com>",
+  "license": "ISC"
+}
