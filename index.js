@@ -1,5 +1,6 @@
 const
-   koa      = require('koa')
+   co       = require('co')
+ , koa      = require('koa')
  , parse    = require('co-body')
  , Router   = require('koa-router')
  , mongoose = require('mongoose')
@@ -14,6 +15,7 @@ const User = mongoose.model('User')
 const controllers = {}
 controllers.cat = require('./controllers/cat')
 controllers.user = require('./controllers/user')
+controllers.auth = require('./controllers/auth')
 
 // db setup
 mongoose.connect('localhost/cats')
@@ -24,7 +26,7 @@ mongoose.connection.on('error', function(err) {
 // api
 const router = new Router({ prefix: '/api' })
 
-router.get('/', controllers.cat.meow)
+router.get('/', controllers.auth.authenticate, controllers.cat.meow)
 router.post('/cats', controllers.cat.createCat)
 router.get('/cats', controllers.cat.getCats)
 router.get('/cats/:id', controllers.cat.getCat)
@@ -37,5 +39,4 @@ router.post('/users', controllers.user.createUser)
 
 app.use(router.routes())
 app.use(router.allowedMethods())
-
 if (!module.parent) app.listen(3000)
