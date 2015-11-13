@@ -31,15 +31,11 @@ User.pre('save', function(done) {
   }).call(this).then(done)
 })
 
-User.methods.comparePassword = function* (pass) {
-  return yield bcrypt.compare(pass, this.password)
-}
-
 User.methods.verifyPassword = function* (username, password) {
-  var user = yield this.findOne({ username:username.toLowerCase() }).exec()
-  if (!user) throw ('Bad user')
-  if (yield user.comparePassword(password)) return user
-  throw new Error('Bad password')
+  var User = mongoose.model('User')
+  var user = yield User.findOne({ username: username }).exec()
+  if (!user) return false
+  return yield bcrypt.compare(password, this.password)
 }
 
 mongoose.model('User', User)

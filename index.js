@@ -1,10 +1,9 @@
-const
-   co       = require('co')
- , koa      = require('koa')
- , parse    = require('co-body')
- , Router   = require('koa-router')
- , mongoose = require('mongoose')
- , app      = module.exports = koa()
+const co       = require('co')
+const koa      = require('koa')
+const parse    = require('co-body')
+const Router   = require('koa-router')
+const mongoose = require('mongoose')
+const app      = module.exports = koa()
 
 // load models
 require('./models/')
@@ -17,6 +16,8 @@ controllers.cat = require('./controllers/cat')
 controllers.user = require('./controllers/user')
 controllers.auth = require('./controllers/auth')
 
+app.use(controllers.auth.passport.initialize())
+
 // db setup
 mongoose.connect('localhost/cats')
 mongoose.connection.on('error', function(err) {
@@ -26,7 +27,7 @@ mongoose.connection.on('error', function(err) {
 // api
 const router = new Router({ prefix: '/api' })
 
-router.get('/', controllers.auth.authenticate, controllers.cat.meow)
+router.get('/', controllers.auth.secured, controllers.cat.meow)
 router.post('/cats', controllers.cat.createCat)
 router.get('/cats', controllers.cat.getCats)
 router.get('/cats/:id', controllers.cat.getCat)
