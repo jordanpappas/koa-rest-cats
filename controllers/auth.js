@@ -9,19 +9,17 @@ passport.deserializeUser((id, done) => User.findById(id, done))
 
 var auth = function (username, password, done) {
   co.wrap(function* () {
-    var user
     try {
-      user = yield User.findOne({username:username}).exec()
+      var user = yield User.findOne({username:username}).exec()
       if(!user.verifyPassword(username, password)) {
         return false
       }
       return user
     } catch(e) {
+      console.log(e)
       return false
     }
-  }).call(this).then(function(user) {
-    done(null, user)
-  })
+  }).call(this).then(user => done(null,user))
 }
 
 passport.use(new Basic(auth))

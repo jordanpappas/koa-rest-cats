@@ -12,6 +12,7 @@ exports.createCat = function* (next) {
   cat.name = body.name
   cat.type = body.type
   cat.age = body.age
+  console.log(JSON.stringify(this.state.user))
   yield cat.save()
   this.body = { msg: 'Kitty added', data: cat }
 }
